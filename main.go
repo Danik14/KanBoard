@@ -108,12 +108,16 @@ func (m Model) View() string {
 		todoView := m.lists[todo].View()
 		inProgView := m.lists[inProgress].View()
 		doneView := m.lists[done].View()
-		return lipgloss.JoinHorizontal(
-			lipgloss.Left,
-			todoView,
-			inProgView,
-			doneView,
-		)
+		switch m.focused {
+		default:
+			return lipgloss.JoinHorizontal(
+				lipgloss.Left,
+				focusedStyle.Render(todoView),
+				columnStyle.Render(inProgView),
+				columnStyle.Render(doneView),
+			)
+		}
+
 	}
 	return "loading..."
 }
